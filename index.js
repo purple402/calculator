@@ -4,6 +4,23 @@ class Calculator{
         this.currentOperandTextElement = currentOperandTextElement
         this.clear()
     }
+
+/* this 뒤의 것들은 variable이 아닌 property이므로
+    선언이 필요한 것이 아니다 
+    variable : object와 상관 없음. 선언되어야 사용가능
+    property : object의 일부, 선언 필요 없음. 값이 할당된 후 삭제될 때 까지 존재함
+    참고 : https://stackoverflow.com/questions/47960160/variable-and-function-declaration-in-classes-in-es6 */
+    clear() {
+        this.currentOperand = '';
+        this.previousOperand = '';
+        this.operation = undefined;
+    }
+
+    delete() {
+        if (this.currentOperand === '') return
+        this.currentOperand = this.currentOperand.toString().slice(0, -1);
+    }
+
     appendNumber(number) {
         /* .을 계속 추가하는 것 막음 */
         if (number === '.' && this.currentOperand.includes('.')) return
@@ -58,5 +75,15 @@ operationButtons.forEach(button => {
         calculator.chooseOperation(button.innerText)
         calculator.updateDisplay()
     })
+})
+
+equalsButton.addEventListener('click', button => {
+    calculator.compute()
+    calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
 })
 
