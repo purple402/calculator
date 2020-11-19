@@ -37,6 +37,51 @@ class Calculator{
         this.currentOperand = ''
     }
 
+    compute() {
+        let computation
+        const prev = parseFloat(this.previousOperand)
+        const current = parseFloat(this.currentOperand)
+        // 숫자인지 체크하는 함수 isNaN()
+        // || : 논리연산자 or
+        if (isNaN(prev) || isNaN(current)) return
+        switch (this.operation) {
+            case '+' :
+                computation = prev + current;
+                break;
+            case '-' :
+                computation = prev - current;
+                break;
+            case '*' :
+                computation = prev * current;
+                break;
+            case '÷' :
+                computation = prev / current;
+                break;
+            default:
+                return;
+        }
+        this.currentOperand = computation;
+        this.operation = undefined;
+        this.previousOperand = '';
+    }
+
+    getDisplayNumber(number){
+        const stringNumber = number.toString()
+        const integerDigits = parseFloat(stringNumber.split('.')[0])
+        const decimalDigits = stringNumber.split('.')[1]
+        let integerDisplay
+        if (isNaN(integerDigits)) {
+            integerDisplay = ''
+        } else {
+            integerDisplay = integerDigits.toLocaleString('en', {maximunFractionDigits : 0})
+        }
+        if (decimalDigits != null) {
+            return `${integerDisplay}.${decimalDigits}`
+        }   else {
+            return integerDisplay
+        }
+    }
+
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
         if (this.operation != null) {
@@ -87,3 +132,7 @@ allClearButton.addEventListener('click', button => {
     calculator.updateDisplay()
 })
 
+deleteButton.addEventListener('click', button => {
+    calculator.delete()
+    calculator.updateDisplay()
+})
