@@ -17,11 +17,20 @@ class Calculator{
     }
 
     delete() {
+        /* 계산 후 숫자 지운 후 뒤에 입력 가능하도록 */
+        if (this.newCompute === true) {
+            this.newCompute = ''
+        }
         if (this.currentOperand === '') return
         this.currentOperand = this.currentOperand.toString().slice(0, -1);
     }
 
     appendNumber(number) {
+        /* 계산 후 바로 새로운 숫자 입력 */
+        if (this.newCompute === true) {
+            this.currentOperand = ''
+            this.newCompute = ''
+        }
         /* .을 계속 추가하는 것 막음 */
         if (number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number
@@ -63,6 +72,10 @@ class Calculator{
         this.currentOperand = computation;
         this.operation = undefined;
         this.previousOperand = '';
+        /* 계산 후 숫자를 누르면 새로운 숫자 입력
+            계산값을 DEL로 지울 수 있음
+            두 기능을 할 수 있도록 newCompute를 만들어 계산후의 값인지 확인할 수 있도록 함 */
+        this.newCompute = true;
     }
 
     getDisplayNumber(number){
